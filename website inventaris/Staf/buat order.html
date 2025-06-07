@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Buat Order - Sistem Inventaris</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      body {
+        font-size: 0.875rem;
+        background-color: #f8f9fa;
+      }
+      .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        padding: 48px 0 0;
+        box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+      }
+      @media (max-width: 767.98px) {
+        .sidebar {
+          top: 56px;
+        }
+      }
+      .sidebar-sticky {
+        position: relative;
+        top: 0;
+        height: calc(100vh - 48px);
+        padding-top: 0.5rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      .nav-link {
+        font-weight: 500;
+        color: #333;
+      }
+      .nav-link .bi {
+        margin-right: 8px;
+        color: #727272;
+      }
+      .nav-link.active {
+        color: #0d6efd;
+      }
+      .nav-link:hover .bi,
+      .nav-link.active .bi {
+        color: inherit;
+      }
+      .main-content {
+        padding-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <header
+      class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow"
+    >
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"
+        >Sistem Inventaris</a
+      ><button
+        class="navbar-toggler position-absolute d-md-none collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#sidebarMenu"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+          <a class="nav-link px-3" href="../index.html">Logout</a>
+        </div>
+      </div>
+    </header>
+    <div class="container-fluid">
+      <div class="row">
+        <nav
+          id="sidebarMenu"
+          class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+        >
+          <div class="position-sticky pt-3 sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="dashboard.html"
+                  ><i class="bi bi-speedometer2"></i> Dashboard</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="lihat_stok.html"
+                  ><i class="bi bi-boxes"></i> Lihat Stok</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="tambah_stok.html"
+                  ><i class="bi bi-box-arrow-in-down"></i> Tambah Stok</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="kurangi_stok.html"
+                  ><i class="bi bi-box-arrow-up"></i> Kurangi Stok</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#"
+                  ><i class="bi bi-truck"></i> Buat Order ke Supplier</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="riwayat.html"
+                  ><i class="bi bi-clock-history"></i> Riwayat Stok</a
+                >
+              </li>
+            </ul>
+            <h6
+              class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase"
+            >
+              <span>Pengguna</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="update_profil.html"
+                  ><i class="bi bi-person-circle"></i> Update Profil</a
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Buat Pesanan Baru ke Supplier</h1>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-10">
+              <div class="card mb-4">
+                <div class="card-header">Informasi Pesanan</div>
+                <div class="card-body">
+                  <form id="orderInfoForm">
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <label for="pilihSupplier" class="form-label"
+                          >Pilih Supplier</label
+                        ><select
+                          class="form-select"
+                          id="pilihSupplier"
+                          required
+                        >
+                          <option selected disabled value="">Pilih...</option>
+                          <option>PT. Indofood Sukses Makmur</option>
+                          <option>PT. Mayora Indah</option>
+                          <option>Wings Food</option>
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <label for="tglOrder" class="form-label"
+                          >Tanggal Order</label
+                        ><input
+                          type="date"
+                          class="form-control"
+                          id="tglOrder"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-3">
+                        <label for="tglEstimasi" class="form-label"
+                          >Estimasi Tiba</label
+                        ><input
+                          type="date"
+                          class="form-control"
+                          id="tglEstimasi"
+                        />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header">Tambah Barang ke Pesanan</div>
+                <div class="card-body">
+                  <div class="row g-3 align-items-end">
+                    <div class="col-md-7">
+                      <label for="pilihBarang" class="form-label">Barang</label
+                      ><select class="form-select" id="pilihBarang">
+                        <option selected disabled value="">Pilih...</option>
+                        <option>Indomie Goreng</option>
+                        <option>Beras Rojolele 5kg</option>
+                        <option>Minyak Goreng Sania 2L</option>
+                        <option>Teh Botol Sosro</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="jumlahOrder" class="form-label">Jumlah</label
+                      ><input
+                        type="number"
+                        class="form-control"
+                        id="jumlahOrder"
+                        min="1"
+                        value="1"
+                      />
+                    </div>
+                    <div class="col-md-2">
+                      <button
+                        type="button"
+                        class="btn btn-success w-100"
+                        id="addItemButton"
+                      >
+                        <i class="bi bi-plus-circle"></i> Tambah
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">Daftar Barang Dipesan</div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nama Barang</th>
+                          <th scope="col">Jumlah</th>
+                          <th scope="col">Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody id="orderCartBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-4" />
+              <button
+                class="btn btn-primary btn-lg"
+                type="button"
+                id="submitOrderButton"
+              >
+                Buat Pesanan
+              </button>
+              <a href="dashboard.html" class="btn btn-outline-secondary btn-lg"
+                >Batal</a
+              >
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Set tanggal order ke hari ini secara default
+      document.getElementById("tglOrder").valueAsDate = new Date();
+
+      // Ambil elemen-elemen yang dibutuhkan
+      const addItemButton = document.getElementById("addItemButton");
+      const pilihBarangSelect = document.getElementById("pilihBarang");
+      const jumlahOrderInput = document.getElementById("jumlahOrder");
+      const orderCartBody = document.getElementById("orderCartBody");
+
+      // --- Event Listener untuk tombol "Tambah" ---
+      addItemButton.addEventListener("click", function () {
+        const selectedBarang =
+          pilihBarangSelect.options[pilihBarangSelect.selectedIndex].text;
+        const jumlah = jumlahOrderInput.value;
+
+        // Validasi sederhana
+        if (selectedBarang === "Pilih..." || jumlah <= 0) {
+          alert("Silakan pilih barang dan masukkan jumlah yang valid.");
+          return;
+        }
+
+        // Buat baris tabel baru
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+            <td>${selectedBarang}</td>
+            <td>${jumlah}</td>
+            <td><button type="button" class="btn btn-danger btn-sm removeItemButton"><i class="bi bi-trash"></i></button></td>
+        `;
+
+        // Tambahkan baris baru ke dalam body tabel
+        orderCartBody.appendChild(newRow);
+
+        // Reset input
+        pilihBarangSelect.selectedIndex = 0;
+        jumlahOrderInput.value = 1;
+      });
+
+      // --- Event Listener untuk tombol "Hapus" di setiap baris (Event Delegation) ---
+      orderCartBody.addEventListener("click", function (event) {
+        // Cek apakah yang diklik adalah tombol hapus
+        if (
+          event.target.classList.contains("removeItemButton") ||
+          event.target.parentElement.classList.contains("removeItemButton")
+        ) {
+          // Hapus baris (tr) dari tabel
+          event.target.closest("tr").remove();
+        }
+      });
+
+      // --- Event Listener untuk tombol "Buat Pesanan" ---
+      const submitOrderButton = document.getElementById("submitOrderButton");
+      submitOrderButton.addEventListener("click", function () {
+        if (orderCartBody.rows.length === 0) {
+          alert(
+            "Keranjang pesanan masih kosong. Silakan tambahkan barang terlebih dahulu."
+          );
+          return;
+        }
+        alert("Pesanan berhasil dibuat!");
+        // Di aplikasi nyata, di sini Anda akan mengumpulkan semua data dan mengirimkannya ke server.
+      });
+    </script>
+  </body>
+</html>

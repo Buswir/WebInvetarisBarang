@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kelola Pemasok - Sistem Inventaris</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      body {
+        font-size: 0.875rem;
+        background-color: #f8f9fa;
+      }
+      .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        padding: 48px 0 0;
+        box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+      }
+      @media (max-width: 767.98px) {
+        .sidebar {
+          top: 56px;
+        }
+      }
+      .sidebar-sticky {
+        position: relative;
+        top: 0;
+        height: calc(100vh - 48px);
+        padding-top: 0.5rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      .nav-link {
+        font-weight: 500;
+        color: #333;
+      }
+      .nav-link .bi {
+        margin-right: 8px;
+        color: #727272;
+      }
+      .nav-link.active {
+        color: #0d6efd;
+      }
+      .nav-link:hover .bi,
+      .nav-link.active .bi {
+        color: inherit;
+      }
+      .main-content {
+        padding-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <header
+      class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
+    >
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"
+        >ADMIN PANEL</a
+      ><button
+        class="navbar-toggler position-absolute d-md-none collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#sidebarMenu"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+          <a class="nav-link px-3" href="login.html">Logout</a>
+        </div>
+      </div>
+    </header>
+    <div class="container-fluid">
+      <div class="row">
+        <nav
+          id="sidebarMenu"
+          class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+        >
+          <div class="position-sticky pt-3 sidebar-sticky">
+            <h6
+              class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-1 mb-1 text-muted text-uppercase"
+            >
+              <span>Menu Utama</span>
+            </h6>
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="dashboard.html"
+                  ><i class="bi bi-speedometer2"></i> Dashboard</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="manajemen_stok.html"
+                  ><i class="bi bi-boxes"></i> Manajemen Stok</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="riwayat_admin.html"
+                  ><i class="bi bi-clock-history"></i> Riwayat Stok</a
+                >
+              </li>
+            </ul>
+            <h6
+              class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase"
+            >
+              <span>Data Master</span>
+            </h6>
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="kelola_kategori.html"
+                  ><i class="bi bi-tag-fill"></i> Kelola Kategori</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#"
+                  ><i class="bi bi-truck-flatbed"></i> Kelola Pemasok</a
+                >
+              </li>
+            </ul>
+            <h6
+              class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase"
+            >
+              <span>Sistem</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="log_aktivitas.html"
+                  ><i class="bi bi-file-earmark-text"></i> Log Aktivitas</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="update_profil_admin.html"
+                  ><i class="bi bi-person-circle"></i> Update Profil</a
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Kelola Data Pemasok</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#pemasokModal"
+                data-action="add"
+              >
+                <i class="bi bi-plus-lg"></i> Tambah Pemasok Baru
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nama Pemasok</th>
+                  <th>Kontak</th>
+                  <th>Alamat</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>PT. Indofood Sukses Makmur</td>
+                  <td>corporate@indofood.co.id<br />021-57958822</td>
+                  <td>Sudirman Plaza, Jakarta</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-warning btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#pemasokModal"
+                      data-action="edit"
+                      data-id="1"
+                      data-nama="PT. Indofood Sukses Makmur"
+                      data-email="corporate@indofood.co.id"
+                      data-telepon="021-57958822"
+                      data-alamat="Sudirman Plaza, Jakarta"
+                    >
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deletePemasokModal"
+                      data-nama="PT. Indofood Sukses Makmur"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>PT. Mayora Indah</td>
+                  <td>consumer@mayora.co.id<br />021-80637100</td>
+                  <td>Jl. Tomang Raya, Jakarta</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-warning btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#pemasokModal"
+                      data-action="edit"
+                      data-id="2"
+                      data-nama="PT. Mayora Indah"
+                      data-email="consumer@mayora.co.id"
+                      data-telepon="021-80637100"
+                      data-alamat="Jl. Tomang Raya, Jakarta"
+                    >
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deletePemasokModal"
+                      data-nama="PT. Mayora Indah"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="pemasokModal"
+      tabindex="-1"
+      aria-labelledby="pemasokModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="pemasokModalLabel"></h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="pemasokForm">
+              <input type="hidden" id="pemasokId" />
+              <div class="mb-3">
+                <label for="namaPemasok" class="form-label">Nama Pemasok</label
+                ><input
+                  type="text"
+                  class="form-control"
+                  id="namaPemasok"
+                  required
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="emailPemasok" class="form-label">Email</label
+                  ><input type="email" class="form-control" id="emailPemasok" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="teleponPemasok" class="form-label"
+                    >No. Telepon</label
+                  ><input
+                    type="text"
+                    class="form-control"
+                    id="teleponPemasok"
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="alamatPemasok" class="form-label">Alamat</label
+                ><textarea
+                  class="form-control"
+                  id="alamatPemasok"
+                  rows="3"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="savePemasokButton"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="deletePemasokModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Konfirmasi Hapus</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Batal</button
+            ><button type="button" class="btn btn-danger">Ya, Hapus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const pemasokModal = document.getElementById("pemasokModal");
+      const pemasokForm = document.getElementById("pemasokForm");
+
+      pemasokModal.addEventListener("show.bs.modal", (event) => {
+        const button = event.relatedTarget;
+        const action = button.getAttribute("data-action");
+        const modalTitle = pemasokModal.querySelector(".modal-title");
+        const saveButton = pemasokModal.querySelector("#savePemasokButton");
+
+        if (action === "edit") {
+          modalTitle.textContent = "Edit Data Pemasok";
+          saveButton.textContent = "Simpan Perubahan";
+
+          // Isi form dengan data dari tombol edit
+          document.getElementById("pemasokId").value =
+            button.getAttribute("data-id");
+          document.getElementById("namaPemasok").value =
+            button.getAttribute("data-nama");
+          document.getElementById("emailPemasok").value =
+            button.getAttribute("data-email");
+          document.getElementById("teleponPemasok").value =
+            button.getAttribute("data-telepon");
+          document.getElementById("alamatPemasok").value =
+            button.getAttribute("data-alamat");
+        } else {
+          modalTitle.textContent = "Tambah Pemasok Baru";
+          saveButton.textContent = "Simpan";
+          pemasokForm.reset();
+          document.getElementById("pemasokId").value = "";
+        }
+      });
+
+      const deletePemasokModal = document.getElementById("deletePemasokModal");
+      deletePemasokModal.addEventListener("show.bs.modal", (event) => {
+        const nama = event.relatedTarget.getAttribute("data-nama");
+        deletePemasokModal.querySelector(
+          ".modal-body"
+        ).textContent = `Apakah Anda yakin ingin menghapus pemasok "${nama}"?`;
+      });
+    </script>
+  </body>
+</html>
